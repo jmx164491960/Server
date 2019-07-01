@@ -3,13 +3,21 @@ var http = require('http');
 var url = require('url');
 var path = require('path');
 var readStaticFile = require('./modules/readStaticFile');
-const POST = 9527;
+const CONFIG = require('./config');
+const POST = 9526;
 
 // 搭建 HTTP 服务器
 var server = http.createServer(function(req, res) {
     var urlObj = url.parse(req.url);
     var urlPathname = urlObj.pathname;
-    var filePathname = path.join(__dirname, "/public", urlPathname);
+    if (urlPathname === '/') {
+        urlPathname += 'index';
+    }
+    if (urlPathname === '/index') {
+        urlPathname += '.html';
+    }
+    console.log('urlPathname:', urlPathname);
+    var filePathname = path.join(__dirname, CONFIG.dirPath, urlPathname);
     console.log('filePathname:', filePathname);
     
     // 读取静态文件
