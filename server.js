@@ -7,25 +7,31 @@ const CONFIG = require('./config');
 const POST = 9526;
 
 // 搭建 HTTP 服务器
-var server = http.createServer(function(req, res) {
-    var urlObj = url.parse(req.url);
-    var urlPathname = urlObj.pathname;
-    if (urlPathname === '/') {
-        urlPathname += 'index';
-    }
-    if (urlPathname === '/index') {
-        urlPathname += '.html';
-    }
-    console.log('urlPathname:', urlPathname);
-    var filePathname = path.join(__dirname, CONFIG.dirPath, urlPathname);
-    console.log('filePathname:', filePathname);
+function begin(port) {
+    var server = http.createServer(function(req, res) {
+        var urlObj = url.parse(req.url);
+        var urlPathname = urlObj.pathname;
     
-    // 读取静态文件
-    readStaticFile(res, filePathname);
-});
+        console.log('!');
+        if (urlPathname === '/') {
+            urlPathname += 'index';
+        }
+        if (urlPathname === '/index') {
+            urlPathname += '.html';
+        }
+        var filePathname = path.join(__dirname, CONFIG.dirPath, urlPathname);
+        
+        // 读取静态文件
+        readStaticFile(req, res, filePathname);
+    });
+    
+    // 端口监听请求
+    server.listen(port, function() {
+        console.log("服务器运行中.");
+        console.log(`正在监听 ${port} 端口:`)
+    });
+}
 
-// 端口监听请求
-server.listen(POST, function() {
-    console.log("服务器运行中.");
-    console.log(`正在监听 ${POST} 端口:`)
-});
+begin(9526)
+// begin(9527)
+// begin(9528)
