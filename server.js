@@ -11,7 +11,7 @@ var url = require('url');
 var path = require('path');
 var readStaticFile = require('./modules/readStaticFile');
 const CONFIG = require('./config');
-const POST = 8091;
+const POST = 80;
 
 // 搭建 HTTP 服务器
 var server = http.createServer(function(req, res) {
@@ -36,3 +36,9 @@ server.listen(POST, function() {
     console.log("服务器运行中.");
     console.log(`正在监听 ${POST} 端口:`)
 });
+
+// // 端口监听请求
+// server.listen(81, function() {
+//     console.log("服务器运行中.");
+//     console.log(`正在监听 ${81} 端口:`)
+// });
